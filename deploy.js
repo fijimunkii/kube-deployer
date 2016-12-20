@@ -1,6 +1,6 @@
 var env = require('./env');
-var sendMessage = require('./lib/send-message');
-var sendStatus = require('./lib/send-status');
+var sendMessage = require('./lib/sendMessage');
+var sendStatus = require('./lib/sendStatus');
 var deploySync = {};
 
 module.exports = (req, res) => {
