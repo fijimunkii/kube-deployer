@@ -14,7 +14,7 @@ RUN sudo apt-get update && apt-get install -y curl && \
   curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
 
 RUN sudo apt-get update && apt-get install -y --no-install-recommends \
-  nodejs vim build-essential wget openssh-client
+  nodejs vim build-essential wget openssh-client gettext
 
 RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl && chmod +x ./kubectl && sudo mv ./kubectl /usr/local/bin/kubectl
 

@@ -16,12 +16,12 @@ module.exports = (req, res) => {
     console.log([
       'BRANCHNAME='+deployment.ref,
       'REV='+deployment.sha,
-      'cat app-deployment.yaml | kubectl --kubeconfig config'
+      'cat app-deployment.yaml | envsubst | kubectl --kubeconfig config'
     ].join(' '));
     return execAsync([
       'BRANCHNAME='+deployment.ref,
       'REV='+deployment.sha,
-      'cat app-deployment.yaml | kubectl --kubeconfig config'
+      'cat app-deployment.yaml | envsubst | kubectl --kubeconfig config'
     ].join(' ')).then(res => {
       console.log(res);
     });
