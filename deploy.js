@@ -1,13 +1,19 @@
 var env = require('./env');
 var sendMessage = require('./lib/sendMessage');
 var sendStatus = require('./lib/sendStatus');
-var deploySync = {};
+var getDeployment = require('./lib/getDeployment');
+var Promise = require('bluebird');
+var request = Promise.promisifyAll(require('request'),{multiArgs:true});
 
 module.exports = (req, res) => {
-  console.log('query',req.query);
-  console.log('params',req.params);
-  console.log('body',req.body);
-  res.sendStatus(200);
+  getDeployment({
+    username: req.body.repository.owner.login,
+    reponame: req.body.repository.name,
+    id: req.body.hook.id
+  }).then(deployment => {
+    console.log(deployment);
+    res.sendStatus(200);
+  });
   /*
   var key, branchname, releaseBranch, logdir, logfiles, targetUrl, rev, server, keepAliveInterval, dockerTag;
   return Promise.resolve().then(() => {
