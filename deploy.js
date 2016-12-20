@@ -6,6 +6,8 @@ var deploySync = {};
 module.exports = (req, res) => {
   console.log('query',req.query);
   console.log('params',req.params);
+  console.log('body',req.body);
+  res.sendStatus(200);
   /*
   var key, branchname, releaseBranch, logdir, logfiles, targetUrl, rev, server, keepAliveInterval, dockerTag;
   return Promise.resolve().then(() => {
