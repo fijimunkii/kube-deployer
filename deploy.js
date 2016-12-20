@@ -4,9 +4,11 @@ var sendStatus = require('./lib/send-status');
 var deploySync = {};
 
 module.exports = (req, res) => {
+  console.log('query',req.query);
+  console.log('params',req.params);
+  /*
   var key, branchname, releaseBranch, logdir, logfiles, targetUrl, rev, server, keepAliveInterval, dockerTag;
   return Promise.resolve().then(() => {
-    releaseBranch = env.get('RELEASE_BRANCH') || 'release';
     branchname = (req.query.branchname || releaseBranch).replace(/([^\w\d\s-])/,''); 
     server = req.query.server && decodeURIComponent(req.query.server);
     var servers = env.get(req.query.username+'/'+req.query.reponame+':servers');
@@ -100,4 +102,5 @@ module.exports = (req, res) => {
       })
     ]);
   });
+  */
 };
