@@ -4,6 +4,7 @@ var sendStatus = require('./lib/sendStatus');
 var getDeployment = require('./lib/getDeployment');
 var Promise = require('bluebird');
 var request = Promise.promisifyAll(require('request'),{multiArgs:true});
+var execAsync = Promise.promisify(require('child_process').exec);
 
 module.exports = (req, res) => {
   getDeployment({
@@ -11,8 +12,14 @@ module.exports = (req, res) => {
     reponame: req.body.repository.name,
     id: req.body.deployment.id
   }).then(deployment => {
-    console.log(deployment);
     res.sendStatus(200);
+    return execAsync([
+      'BRANCHNAME='+deployment.ref,
+      'REV='+deployment.sha,
+      'cat app-deployment.yaml | kubectl --kubeconfig config'
+    ].join(' ')).then(res => {
+      console.log(res);
+    });
   })
   .catch(err => {
     var reason = '';
