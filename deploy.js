@@ -13,6 +13,11 @@ module.exports = (req, res) => {
     id: req.body.deployment.id
   }).then(deployment => {
     res.sendStatus(200);
+    console.log([
+      'BRANCHNAME='+deployment.ref,
+      'REV='+deployment.sha,
+      'cat app-deployment.yaml | kubectl --kubeconfig config'
+    ].join(' '));
     return execAsync([
       'BRANCHNAME='+deployment.ref,
       'REV='+deployment.sha,
