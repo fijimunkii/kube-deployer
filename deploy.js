@@ -13,15 +13,28 @@ module.exports = (req, res) => {
     id: req.body.deployment.id
   }).then(deployment => {
     res.sendStatus(200);
+    var apphost = ( env.get('production') ?
+      deployment.environment === 'production' && 'app' || 'stg' :
+      deployment.ref ) + '.' + env.get('APPHOST');
     console.log([
+      'USERNAME='+req.body.repository.owner.login,
+      'REPONAME='+req.body.repository.name,
+      'APPHOST='+apphost,
+      'APPNAME='+env.get('APPNAME'),
+      'NAMESPACE='+env.get('NAMESPACE'),
       'BRANCHNAME='+deployment.ref,
       'REV='+deployment.sha,
-      'cat app-deployment.yaml | envsubst | kubectl --kubeconfig config'
+      'cat app-deployment.yaml | envsubst | kubectl --kubeconfig config apply -'
     ].join(' '));
     return execAsync([
+      'USERNAME='+req.body.repository.owner.login,
+      'REPONAME='+req.body.repository.name,
+      'APPHOST='+apphost,
+      'APPNAME='+env.get('APPNAME'),
+      'NAMESPACE='+env.get('NAMESPACE'),
       'BRANCHNAME='+deployment.ref,
       'REV='+deployment.sha,
-      'cat app-deployment.yaml | envsubst | kubectl --kubeconfig config'
+      'cat app-deployment.yaml | envsubst | kubectl --kubeconfig config apply -'
     ].join(' ')).then(res => {
       console.log(res);
     });
