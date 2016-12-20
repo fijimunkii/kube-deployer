@@ -25,7 +25,7 @@ module.exports = (req, res) => {
       'NAMESPACE='+env.get('NAMESPACE'),
       'BRANCHNAME='+deployment.ref,
       'REV='+deployment.sha,
-      'cat app-deployment.yaml | envsubst | kubectl --kubeconfig config apply -'
+      'cat app-deployment.yaml | envsubst | kubectl --kubeconfig config apply -f -'
     ].join(' '));
     return execAsync([
       'USERNAME='+req.body.repository.owner.login,
@@ -35,7 +35,7 @@ module.exports = (req, res) => {
       'NAMESPACE='+env.get('NAMESPACE'),
       'BRANCHNAME='+deployment.ref,
       'REV='+deployment.sha,
-      'cat app-deployment.yaml | envsubst | kubectl --kubeconfig config apply -'
+      'cat app-deployment.yaml | envsubst | kubectl --kubeconfig config apply -f -'
     ].join(' ')).then(res => {
       console.log(res);
     });
