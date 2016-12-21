@@ -13,6 +13,8 @@ module.exports = (req, res) => {
     id: req.body.deployment.id
   }).then(deployment => {
     res.sendStatus(200);
+    if (!(new RegExp(env.get('branch')||'.*')).test(deployment.ref))
+      throw 'Invalid branch';
     var apphost = ( env.get('production') ?
       deployment.environment === 'production' && 'app' || 'stg' :
       deployment.ref ) + '.' + env.get('APPHOST');
@@ -34,6 +36,7 @@ module.exports = (req, res) => {
       });
   })
   .catch(err => {
+    if (err === 'Invalid branch') return;
     var reason = '';
     var reasons = [
       'ENOSPC: no space left on device'
