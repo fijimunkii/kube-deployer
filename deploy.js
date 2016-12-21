@@ -16,28 +16,22 @@ module.exports = (req, res) => {
     var apphost = ( env.get('production') ?
       deployment.environment === 'production' && 'app' || 'stg' :
       deployment.ref ) + '.' + env.get('APPHOST');
-    console.log([
+    var cmd = [
       'export USERNAME='+req.body.repository.owner.login,
       '&& export REPONAME='+req.body.repository.name,
       '&& export APPHOST='+apphost,
       '&& export APPNAME='+env.get('APPNAME'),
       '&& export NAMESPACE='+env.get('NAMESPACE'),
+      '&& export REGISTRY='+env.get('REGISTRY'),
       '&& export BRANCHNAME='+deployment.ref,
       '&& export REV='+deployment.sha,
       '&& cat app-deployment.yaml | envsubst | kubectl --kubeconfig config apply -f -'
-    ].join(' '));
-    return execAsync([
-      'export USERNAME='+req.body.repository.owner.login,
-      '&& export REPONAME='+req.body.repository.name,
-      '&& export APPHOST='+apphost,
-      '&& export APPNAME='+env.get('APPNAME'),
-      '&& export NAMESPACE='+env.get('NAMESPACE'),
-      '&& export BRANCHNAME='+deployment.ref,
-      '&& export REV='+deployment.sha,
-      '&& cat app-deployment.yaml | envsubst | kubectl --kubeconfig config apply -f -'
-    ].join(' ')).then(res => {
-      console.log(res);
-    });
+    ].join(' ');
+    console.log(cmd);
+    return execAsync(cmd)
+      .then(res => {
+        console.log(res);
+      });
   })
   .catch(err => {
     var reason = '';
