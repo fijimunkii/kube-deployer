@@ -12,7 +12,6 @@ module.exports = (req, res) => {
     reponame: req.body.repository.name,
     id: req.body.deployment.id
   }).then(deployment => {
-    console.log(deployment);
     res.sendStatus(200);
     var apphost = ( env.get('production') ?
       deployment.environment === 'production' && 'app' || 'stg' :
