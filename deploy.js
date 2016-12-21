@@ -44,7 +44,7 @@ module.exports = (req, res) => {
     if (reasons.indexOf(String(err && err.stack || err)) > -1)
       reason = err; 
     console.log(err && err.stack || err);
-    res.end(String(err));
+    res.status(500).end(String(err));
     return Promise.all([
       sendMessage('Deploy FAILED ' + targetUrl + ' ' + reason),
       sendStatus({
