@@ -39,7 +39,7 @@ module.exports = (req, res) => {
         reponame: req.body.repository.name,
         id: deployment.id,
         state: 'success',
-        description: 'Deployed: ' + targetUrl + ' ' + reason,
+        description: 'Deployed: ' + apphost,
         target_url: apphost
       }));
   })
@@ -56,8 +56,8 @@ module.exports = (req, res) => {
     return Promise.all([
       sendMessage('Deploy FAILED ' + apphost + ' ' + reason),
       sendStatus({
-        username: req.query.username,
-        reponame: req.query.reponame,
+        username: req.body.repository.owner.login,
+        reponame: req.body.repository.name,
         id: req.body.deployment.id,
         state: 'failure',
         description: 'Deploy FAILED: ' + apphost + ' ' + reason,
