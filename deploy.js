@@ -17,24 +17,24 @@ module.exports = (req, res) => {
       deployment.environment === 'production' && 'app' || 'stg' :
       deployment.ref ) + '.' + env.get('APPHOST');
     console.log([
-      'USERNAME='+req.body.repository.owner.login,
-      'REPONAME='+req.body.repository.name,
-      'APPHOST='+apphost,
-      'APPNAME='+env.get('APPNAME'),
-      'NAMESPACE='+env.get('NAMESPACE'),
-      'BRANCHNAME='+deployment.ref,
-      'REV='+deployment.sha,
-      'cat app-deployment.yaml | envsubst | kubectl --kubeconfig config apply -f -'
+      'export USERNAME='+req.body.repository.owner.login,
+      '&& export REPONAME='+req.body.repository.name,
+      '&& export APPHOST='+apphost,
+      '&& export APPNAME='+env.get('APPNAME'),
+      '&& export NAMESPACE='+env.get('NAMESPACE'),
+      '&& export BRANCHNAME='+deployment.ref,
+      '&& export REV='+deployment.sha,
+      '&& cat app-deployment.yaml | envsubst | kubectl --kubeconfig config apply -f -'
     ].join(' '));
     return execAsync([
-      'USERNAME='+req.body.repository.owner.login,
-      'REPONAME='+req.body.repository.name,
-      'APPHOST='+apphost,
-      'APPNAME='+env.get('APPNAME'),
-      'NAMESPACE='+env.get('NAMESPACE'),
-      'BRANCHNAME='+deployment.ref,
-      'REV='+deployment.sha,
-      'cat app-deployment.yaml | envsubst | kubectl --kubeconfig config apply -f -'
+      'export USERNAME='+req.body.repository.owner.login,
+      '&& export REPONAME='+req.body.repository.name,
+      '&& export APPHOST='+apphost,
+      '&& export APPNAME='+env.get('APPNAME'),
+      '&& export NAMESPACE='+env.get('NAMESPACE'),
+      '&& export BRANCHNAME='+deployment.ref,
+      '&& export REV='+deployment.sha,
+      '&& cat app-deployment.yaml | envsubst | kubectl --kubeconfig config apply -f -'
     ].join(' ')).then(res => {
       console.log(res);
     });
