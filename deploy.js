@@ -40,7 +40,7 @@ module.exports = (req, res) => {
         id: deployment.id,
         state: 'success',
         description: 'Deployed: ' + apphost,
-        target_url: apphost
+        target_url: 'https://' + apphost
       }));
   })
   .catch(err => {
@@ -61,7 +61,7 @@ module.exports = (req, res) => {
         id: req.body.deployment.id,
         state: 'failure',
         description: 'Deploy FAILED: ' + apphost + ' ' + reason,
-        target_url: apphost
+        target_url: 'https://' + apphost
       })
     ]);
   });
