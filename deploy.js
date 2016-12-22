@@ -26,6 +26,7 @@ module.exports = (req, res) => {
       '&& export APPNAME='+env.get('APPNAME'),
       '&& export NAMESPACE='+env.get('NAMESPACE'),
       '&& export REGISTRY='+env.get('REGISTRY'),
+      '&& export CERTNAME='+env.get('CERTNAME'),
       '&& export BRANCHNAME='+deployment.ref,
       '&& export REV='+deployment.sha,
       '&& cat app-deployment.yaml | envsubst | kubectl --kubeconfig config apply -f -'
