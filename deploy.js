@@ -16,13 +16,14 @@ module.exports = (req, res) => {
     res.sendStatus(200);
     if (!(new RegExp(env.get('branch')||'.*')).test(deployment.ref))
       throw 'Invalid branch';
-    apphost = ( env.get('production') ?
+    apphost = env.get('production') ?
       deployment.environment === 'production' && 'app' || 'stg' :
-      deployment.ref ) + '.' + env.get('APPHOST');
+      deployment.ref + '-' + req.body.repository.name;
     var cmd = [
       'export USERNAME='+req.body.repository.owner.login,
       '&& export REPONAME='+req.body.repository.name,
-      '&& export APPHOST='+apphost,
+      '&& export APPHOST='+apphost+'.'+env.get('APPHOST'),
+      '&& export APPHOST2='+apphost+'.'+env.get('APPHOST2'),
       '&& export APPNAME='+env.get('APPNAME'),
       '&& export NAMESPACE='+env.get('NAMESPACE'),
       '&& export REGISTRY='+env.get('REGISTRY'),
